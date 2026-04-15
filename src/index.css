@@ -1,0 +1,674 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap');
+
+:root {
+  --font-main: 'Inter', sans-serif;
+  --font-display: 'Bebas Neue', cursive;
+  --bg-color: #050505;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --ui-overlay: rgba(10, 10, 10, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  overflow: hidden; /* Prevent scrolling, we use GSAP panel transitions */
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+}
+
+/* =========================================
+   APP CONTAINER & BACKGROUND 
+========================================= */
+.app-panel-layout {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+  will-change: opacity;
+}
+
+.panel-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Cinematic vignette & shadow gradient to make text pop */
+  background: linear-gradient(90deg, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.6) 40%, rgba(5,5,5,0.2) 100%),
+              radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.8) 120%);
+  z-index: -1;
+}
+
+/* =========================================
+   GLOBAL NAV 
+========================================= */
+.global-nav {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 4px;
+  line-height: 1;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: color 0.5s ease;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 3rem;
+}
+
+.nav-links li {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links li:hover {
+  color: var(--text-primary);
+}
+
+.nav-links li.active {
+  color: var(--text-primary);
+}
+
+.nav-indicator {
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  box-shadow: 0 0 10px currentColor; /* glow matches theme color */
+}
+
+/* =========================================
+   MAIN SLIDE CONTENT 
+========================================= */
+.slide-content {
+  flex: 1;
+  display: flex;
+  padding: 0 4rem;
+  padding-top: 6rem; /* Space for nav */
+  padding-bottom: 6rem; /* Space for HUD */
+  will-change: transform, opacity;
+}
+
+.layout-split {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 4rem;
+}
+
+.left-panel {
+  flex: 1;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* =========================================
+   TRAINING PANEL TYPOGRAPHY 
+========================================= */
+.training-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 10rem;
+  line-height: 0.85;
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.title-row {
+  display: block;
+}
+
+.panel-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  max-width: 400px;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.cta-button {
+  width: fit-content;
+  padding: 1rem 2.5rem;
+  border: 1px solid var(--text-primary);
+  border-radius: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--theme-color);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.cta-button:hover {
+  border-color: var(--theme-color);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.cta-button:hover::before {
+  transform: scaleX(1);
+}
+
+/* =========================================
+   INTERACTIVE TRAINER DECK 
+========================================= */
+.trainer-deck {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end; /* Align cards to the bottom */
+  height: 50vh;
+}
+
+.trainer-card {
+  width: 200px;
+  height: 300px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.trainer-card:hover {
+  transform: translateY(-20px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 2px var(--theme-color);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.trainer-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease, filter 0.4s ease;
+}
+
+.trainer-card:hover .trainer-img {
+  transform: scale(1.1);
+  filter: brightness(0.6);
+}
+
+.card-hover-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.trainer-card:hover .card-hover-overlay {
+  opacity: 1;
+}
+
+.play-icon {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+}
+
+.preview-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  z-index: 3;
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.trainer-card:hover .card-info {
+  transform: translateY(0);
+}
+
+.trainer-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.trainer-role {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   TRAINER PROFILE MODAL (FULLSCREEN)
+========================================= */
+.trainer-profile-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden; /* GSAP will handle autoAlpha */
+}
+
+.modal-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+}
+
+.modal-content {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  background: #0f0f0f;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 100px rgba(0,0,0,0.8);
+}
+
+.close-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 10;
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.modal-split {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-image-col {
+  flex: 1;
+  position: relative;
+}
+
+.modal-image-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-image-col::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, #0f0f0f);
+}
+
+.modal-info-col {
+  flex: 1;
+  padding: 4rem 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-role {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.modal-name {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  line-height: 0.9;
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 1.5rem 0;
+}
+
+.stat {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.stat span {
+  display: block;
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.bio {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+}
+
+.book-btn {
+  padding: 1.25rem 3rem;
+  background: transparent;
+  border: 2px solid var(--text-primary);
+  color: var(--text-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+  background: var(--hover-color);
+  border-color: var(--hover-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   BOTTOM NAVIGATION HUD 
+========================================= */
+.panel-navigation {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.nav-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.6);
+  transform: scale(1.05);
+}
+
+.slide-indicator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.slide-indicator .current {
+  font-size: 3rem;
+  transition: color 0.5s ease;
+  line-height: 0.8;
+}
+
+.slide-indicator .separator {
+  width: 40px;
+  height: 2px;
+  background: rgba(255,255,255,0.3);
+}
+
+.slide-indicator .total {
+  color: var(--text-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .panel-title { font-size: 7rem; }
+  .trainer-card { width: 180px; height: 260px; }
+}
+
+@media (max-width: 900px) {
+  .layout-split { flex-direction: column; align-items: flex-start; gap: 2rem;}
+  .right-panel { justify-content: flex-start; }
+  .trainer-deck { height: auto; padding-top: 2rem;}
+  .panel-title { font-size: 5rem; }
+}
+
+/* =========================================
+   FIND A GYM VIEW 
+========================================= */
+.find-gym-view {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  background: #000;
+  overflow: hidden;
+}
+
+.globe-iframe-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.globe-video-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150vw; /* Scales up to avoid black bars from the iframe */
+  height: 150vh;
+  min-width: 100vw;
+  min-height: 100vh;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  object-fit: cover;
+}
+
+.globe-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 2;
+}
+
+.find-gym-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.find-gym-title {
+  font-family: var(--font-display);
+  font-size: 8rem;
+  line-height: 0.9;
+  margin-bottom: 1rem;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  letter-spacing: 4px;
+}
+
+.find-gym-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 4rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.search-bar-glass {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15); /* More transparent and light */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.search-bar-glass:hover, .search-bar-glass:focus-within {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.search-icon {
+  margin-right: 1rem;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.search-submit {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-submit:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}

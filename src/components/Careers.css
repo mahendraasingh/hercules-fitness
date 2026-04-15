@@ -1,0 +1,501 @@
+/* Careers.css */
+
+.careers-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 5;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #050505;
+  padding-top: 80px; /* Space for nav */
+  scroll-behavior: smooth;
+}
+
+/* Base scroll animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.in-view .fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.in-view .slide-in-left {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.in-view .slide-in-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 1. Hero Section */
+.careers-hero {
+  position: relative;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg-zoom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(5,5,5,0.7), rgba(5,5,5,1)), 
+              url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  animation: bgZoom 20s infinite alternate linear;
+}
+
+@keyframes bgZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 0 2rem;
+  z-index: 1;
+}
+
+.careers-heading {
+  font-family: var(--font-display, 'Bebas Neue', cursive);
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.careers-subtext {
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 2.5rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.primary-btn {
+  background-color: #ef4444; /* Fallback */
+  color: #fff;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+  background: #db2777; /* red/pink default, could use themeColor */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.6);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.secondary-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* 2. Why Work With Us */
+.why-work-section {
+  padding: 6rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section-title {
+  font-family: var(--font-display, 'Bebas Neue', cursive);
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin-bottom: 4rem;
+}
+
+.why-work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.why-card.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  transition: all 0.4s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.why-card.glass-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 15px var(--theme-color);
+  border-color: var(--theme-color);
+}
+
+.card-icon {
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.why-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.why-card p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+}
+
+/* 3. Our Culture */
+.culture-section {
+  padding: 6rem 4rem;
+  background: rgba(255,255,255,0.02);
+}
+
+.culture-split {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+}
+
+.culture-image {
+  flex: 1;
+}
+
+.culture-real-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border: 2px solid;
+  border-radius: 20px;
+  transition: box-shadow 0.3s, filter 0.3s;
+  filter: grayscale(20%);
+}
+
+.culture-real-img:hover {
+  box-shadow: 0 0 30px rgba(255,255,255,0.1);
+  filter: grayscale(0%);
+}
+
+.culture-text {
+  flex: 1;
+}
+
+.text-left {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.culture-desc {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 3rem;
+}
+
+.culture-stats {
+  display: flex;
+  gap: 3rem;
+}
+
+.stat-item h4 {
+  font-family: var(--font-display, 'Bebas Neue', cursive);
+  font-size: 3rem;
+  color: var(--theme-color);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* 4. Open Positions */
+.open-positions-section {
+  padding: 6rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  text-align: left;
+}
+
+.job-card {
+  background: #0f0f0f;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--theme-color);
+  box-shadow: 0 0 20px rgba(255,255,255,0.05), inset 0 0 10px rgba(255,255,255,0.02);
+}
+
+.job-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.job-content p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 2rem;
+}
+
+.apply-trigger-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: auto;
+}
+
+.apply-trigger-btn:hover {
+  text-decoration: underline;
+}
+
+/* 5. Job Details Popup */
+.job-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.job-modal-content {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 4rem;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  animation: scaleUp 0.3s ease;
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: #fff;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.close-modal:hover {
+  opacity: 1;
+}
+
+.job-modal-content h2 {
+  font-family: var(--font-display, 'Bebas Neue', cursive);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.job-modal-desc {
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.job-reqs h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.job-reqs ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 2.5rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.job-reqs li {
+  margin-bottom: 0.5rem;
+}
+
+.modal-apply-btn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #fff;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.modal-apply-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* 6. Application Form Section */
+.application-section {
+  padding: 6rem 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.application-container {
+  max-width: 600px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+}
+
+.application-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.4);
+}
+
+.file-group {
+  text-align: left;
+}
+
+.file-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.submit-btn {
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #fff;
+  margin-top: 1rem;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .culture-split { flex-direction: column; text-align: center; }
+  .text-left { text-align: center; }
+  .culture-stats { justify-content: center; }
+  .careers-hero { height: auto; padding: 120px 20px 60px 20px; }
+  .careers-heading { font-size: 4rem; }
+}
