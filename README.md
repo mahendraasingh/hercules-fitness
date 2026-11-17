@@ -4,6 +4,16 @@ Recreates GitHub's iconic Halloween-themed contribution graph, replacing the def
 
 ---
 
+## 🖼️ Live Halloween Contribution Graph
+
+Here is the live generated graph for [@mahendraasingh](https://github.com/mahendraasingh) (733 contributions in the last year plotted with the 5-level Halloween palette):
+
+<div align="center">
+  <img src="./halloween-graph.svg" alt="Halloween Contribution Graph for Mahendra Singh" width="100%" />
+</div>
+
+---
+
 ## 🎨 Color Palette & Intensity Levels
 
 | Level | Intensity | Hex Code | Visual Description |
@@ -16,98 +26,60 @@ Recreates GitHub's iconic Halloween-themed contribution graph, replacing the def
 
 ---
 
-## ✨ Features
+## 🚀 How to Add This Orange Graph to Your Profile (No Extensions Needed!)
 
-- **Pixel-Accurate**: Preserves GitHub's original grid layout, spacing, corner rounding, and square dimensions.
-- **Dynamic Navigation Safe**: Seamlessly handles GitHub's Turbo Drive, PJAX, tab switching, and yearly graph browsing via `MutationObserver` and event hooks.
-- **Two Flexible Ways to Use**:
-  1. **Manifest V3 Browser Extension**: Works on Google Chrome, Microsoft Edge, Brave, and Chromium browsers (with popup control).
-  2. **Userscript (`.user.js`)**: 1-click install via Tampermonkey, Violentmonkey, or Greasemonkey on any browser.
-- **Light & Dark Theme Compatible**: Dynamically adapts Level 0 for light vs dark appearances while preserving the orange intensity hierarchy.
-- **Safe & Non-Intrusive**: Only modifies contribution squares and legend indicators; never alters contribution counts, dates, profile info, or other GitHub UI components.
-- **Interactive Test Bench & Demo**: Includes a standalone, offline simulation of the GitHub profile contribution calendar with real-time color verification.
+Anyone visiting your GitHub profile on phone or desktop will see your Halloween contribution graph without installing anything!
 
----
+### Method 1: Using the Generated SVG from this Repo
+Paste this into your profile `README.md` (e.g. in your `mahendraasingh/mahendraasingh` profile repo):
 
-## 📦 Installation & Setup
-
-### Method 1: Chrome / Edge / Brave (Browser Extension)
-
-1. Open your browser's extensions page:
-   - **Chrome**: `chrome://extensions`
-   - **Edge**: `edge://extensions`
-   - **Brave**: `brave://extensions`
-2. Enable **"Developer mode"** (toggle in the top-right corner).
-3. Click **"Load unpacked"**.
-4. Select this project root directory (`hercules-fitness-main`).
-5. Open any GitHub profile (e.g., [https://github.com/mahendraasingh](https://github.com/mahendraasingh)). The Halloween orange contribution graph will be active immediately!
-
-### Method 2: Tampermonkey / Violentmonkey (Userscript)
-
-If you prefer using a userscript manager:
-1. Ensure [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey](https://violentmonkey.github.io/) is installed in your browser.
-2. In Tampermonkey, click **"Create a new script"**.
-3. Copy the contents of [`userscript/github-halloween-theme.user.js`](./userscript/github-halloween-theme.user.js) and paste it into the editor.
-4. Press `Ctrl + S` (or `Cmd + S`) to save.
-5. Visit any GitHub profile to see the Halloween orange graph.
-
----
-
-## 🧪 Testing & Verification
-
-### Interactive Browser Demo
-You can view and test the theme locally without navigating to GitHub:
-1. Open [`demo/index.html`](./demo/index.html) in any browser.
-2. The demo features:
-   - Full 52-week contribution graph with realistic activity distributions.
-   - Interactive date & contribution count tooltips.
-   - Legend with all 5 intensity levels.
-   - Light Mode / Dark Mode toggle button.
-   - Live automated color verification cards confirming exact hex matches for all levels.
-
-### Automated Node.js Tests
-Run the test suite from the terminal:
-```bash
-npm test
+```markdown
+<div align="center">
+  <img src="https://raw.githubusercontent.com/mahendraasingh/hercules-fitness/main/halloween-graph.svg" alt="Mahendra's Halloween Contribution Graph" width="100%" />
+</div>
 ```
-All 29 tests verify:
-- Manifest V3 configuration and permissions.
-- Exact hex color specifications (`#161B22`, `#4A210F`, `#8C3B0D`, `#D96B16`, `#FF9A3C`).
-- Selector coverage (`td.ContributionCalendar-day`, `rect.ContributionCalendar-day`, legend).
-- Userscript format and headers.
-- Icon asset generation and presence.
+
+*This graph is automatically updated daily via GitHub Actions ([`.github/workflows/halloween-graph.yml`](./.github/workflows/halloween-graph.yml)).*
+
+### Method 2: Instant ghchart Embed (Zero Configuration)
+You can also embed this one-liner directly:
+
+```markdown
+![Mahendra's Contribution Graph](https://ghchart.rshah.org/FF9A3C/mahendraasingh)
+```
 
 ---
 
-## 📁 Project Structure
+## 🪄 1-Click Browser Bookmarklet (For GitHub.com Profile Page)
+
+If you want the main profile page on `https://github.com/mahendraasingh` itself to turn orange with a single click (no extensions required):
+
+1. Save a new bookmark in your browser bar.
+2. Set the URL to:
+```javascript
+javascript:(function(){const isLight=document.documentElement.getAttribute('data-color-mode')==='light';const p={'0':isLight?'#EBEDF0':'#161B22','1':'#4A210F','2':'#8C3B0D','3':'#D96B16','4':'#FF9A3C'};document.querySelectorAll('[data-level]').forEach(e=>{const l=e.getAttribute('data-level');if(p[l]){e.style.setProperty('background-color',p[l],'important');e.style.setProperty('fill',p[l],'important');}});})();
+```
+3. Whenever you are on GitHub, click the bookmark to turn all green squares orange instantly.
+
+---
+
+## 📁 Repository Structure
 
 ```
-├── manifest.json              # Manifest V3 extension configuration
-├── content.js                 # Content script handling DOM mutation & Turbo navigation
-├── style.css                  # Injection stylesheet targeting all GitHub graph selectors
-├── popup.html                 # Extension popup interface
-├── popup.css                  # Extension popup styles
-├── popup.js                   # Popup toggle logic and state management
-├── icons/                     # Extension icons
-│   ├── icon16.png
-│   ├── icon48.png
-│   ├── icon128.png
-│   └── icon.svg
-├── userscript/
-│   └── github-halloween-theme.user.js  # Tampermonkey / Violentmonkey userscript
-├── demo/
-│   ├── index.html             # Offline GitHub profile calendar simulation & test bench
-│   ├── demo.css               # Styling for demo and test bench
-│   └── demo.js                # Demo interaction, tooltips, and live hex verifier
-├── test/
-│   ├── verify.js              # Automated Node.js verification test suite
-│   └── generate_icons.mjs     # Standalone icon generator script
-├── package.json               # Project metadata and test scripts
-└── README.md                  # Project documentation
+├── halloween-graph.svg        # Real 52-week SVG graph for @mahendraasingh (Halloween orange)
+├── .github/workflows/
+│   └── halloween-graph.yml    # Daily automated workflow updating the SVG
+├── manifest.json              # Optional Manifest V3 browser extension
+├── style.css                  # Injection stylesheet with Primer CSS variables
+├── content.js                 # Content script for Turbo navigation
+├── userscript/                # Tampermonkey / Violentmonkey userscript
+├── demo/                      # Offline interactive simulation & test bench
+└── test/
+    ├── generate_halloween_svg.mjs # SVG graph generator script
+    └── verify.js              # Test suite (29 tests)
 ```
 
 ---
 
 ## 📄 License
 MIT License.
-

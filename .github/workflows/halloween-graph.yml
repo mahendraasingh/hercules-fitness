@@ -1,0 +1,35 @@
+name: Update Halloween Contribution Graph
+
+on:
+  schedule:
+    # Run daily at midnight UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate Halloween Contribution Graph SVG
+        run: node test/generate_halloween_svg.mjs mahendraasingh
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add halloween-graph.svg
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update halloween contribution graph svg" && git push)

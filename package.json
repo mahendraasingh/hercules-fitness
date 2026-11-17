@@ -1,11 +1,12 @@
 {
   "name": "github-halloween-theme",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recreates GitHub's iconic Halloween-themed contribution graph with an authentic 5-level orange palette.",
   "type": "module",
   "scripts": {
     "test": "node test/verify.js",
-    "generate-icons": "node test/generate_icons.mjs"
+    "generate-icons": "node test/generate_icons.mjs",
+    "generate:svg": "node test/generate_halloween_svg.mjs mahendraasingh"
   },
   "keywords": [
     "github",
@@ -14,9 +15,9 @@
     "theme",
     "extension",
     "userscript",
-    "orange"
+    "orange",
+    "svg"
   ],
   "author": "Mahendra Singh",
   "license": "MIT"
 }
-
