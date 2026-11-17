@@ -1,0 +1,174 @@
+/**
+ * GitHub Contribution Graph - Halloween Orange Theme
+ * 
+ * Palette:
+ * Level 0 (No activity):         #161B22 (Dark default) / #EBEDF0 (Light adaptive)
+ * Level 1 (Low activity):        #4A210F
+ * Level 2 (Moderate activity):   #8C3B0D
+ * Level 3 (High activity):       #D96B16
+ * Level 4 (Very high activity):  #FF9A3C
+ */
+
+:root {
+  --gh-halloween-l0: #161B22;
+  --gh-halloween-l1: #4A210F;
+  --gh-halloween-l2: #8C3B0D;
+  --gh-halloween-l3: #D96B16;
+  --gh-halloween-l4: #FF9A3C;
+
+  /* GitHub Primer Design Token Overrides */
+  --color-calendar-graph-day-bg: var(--gh-halloween-l0) !important;
+  --color-calendar-graph-day-L1-bg: var(--gh-halloween-l1) !important;
+  --color-calendar-graph-day-L2-bg: var(--gh-halloween-l2) !important;
+  --color-calendar-graph-day-L3-bg: var(--gh-halloween-l3) !important;
+  --color-calendar-graph-day-L4-bg: var(--gh-halloween-l4) !important;
+
+  --color-calendar-halloween-graph-day-L1-bg: var(--gh-halloween-l1) !important;
+  --color-calendar-halloween-graph-day-L2-bg: var(--gh-halloween-l2) !important;
+  --color-calendar-halloween-graph-day-L3-bg: var(--gh-halloween-l3) !important;
+  --color-calendar-halloween-graph-day-L4-bg: var(--gh-halloween-l4) !important;
+}
+
+/* Light mode appearance adaptation for Level 0 empty cells */
+[data-color-mode="light"]:root,
+html[data-color-mode="light"],
+[data-light-theme="light"] {
+  --gh-halloween-l0: #EBEDF0;
+}
+
+/* Explicit Dark mode ensures #161B22 for Level 0 */
+[data-color-mode="dark"]:root,
+html[data-color-mode="dark"],
+[data-dark-theme="dark"],
+[data-dark-theme="dark_dimmed"],
+[data-dark-theme="dark_high_contrast"] {
+  --gh-halloween-l0: #161B22;
+}
+
+/* Fallback for system dark mode when color-mode is auto */
+@media (prefers-color-scheme: dark) {
+  :root[data-color-mode="auto"],
+  html[data-color-mode="auto"] {
+    --gh-halloween-l0: #161B22;
+  }
+}
+
+/* ========================================================
+   Contribution Calendar Table Cells (Modern GitHub)
+   ======================================================== */
+.js-calendar-graph table.ContributionCalendar-grid td.ContributionCalendar-day[data-level="0"],
+.ContributionCalendar-day[data-level="0"],
+[data-level="0"].ContributionCalendar-day {
+  background-color: var(--gh-halloween-l0) !important;
+  fill: var(--gh-halloween-l0) !important;
+}
+
+.js-calendar-graph table.ContributionCalendar-grid td.ContributionCalendar-day[data-level="1"],
+.ContributionCalendar-day[data-level="1"],
+[data-level="1"].ContributionCalendar-day {
+  background-color: #4A210F !important;
+  fill: #4A210F !important;
+}
+
+.js-calendar-graph table.ContributionCalendar-grid td.ContributionCalendar-day[data-level="2"],
+.ContributionCalendar-day[data-level="2"],
+[data-level="2"].ContributionCalendar-day {
+  background-color: #8C3B0D !important;
+  fill: #8C3B0D !important;
+}
+
+.js-calendar-graph table.ContributionCalendar-grid td.ContributionCalendar-day[data-level="3"],
+.ContributionCalendar-day[data-level="3"],
+[data-level="3"].ContributionCalendar-day {
+  background-color: #D96B16 !important;
+  fill: #D96B16 !important;
+}
+
+.js-calendar-graph table.ContributionCalendar-grid td.ContributionCalendar-day[data-level="4"],
+.ContributionCalendar-day[data-level="4"],
+[data-level="4"].ContributionCalendar-day {
+  background-color: #FF9A3C !important;
+  fill: #FF9A3C !important;
+}
+
+/* ========================================================
+   SVG Rect Support (Legacy / Mobile / Embedded SVGs)
+   ======================================================== */
+svg.js-calendar-graph-svg rect.ContributionCalendar-day[data-level="0"],
+svg.js-calendar-graph-svg rect[data-level="0"],
+.js-calendar-graph rect[data-level="0"] {
+  fill: var(--gh-halloween-l0) !important;
+  background-color: var(--gh-halloween-l0) !important;
+}
+
+svg.js-calendar-graph-svg rect.ContributionCalendar-day[data-level="1"],
+svg.js-calendar-graph-svg rect[data-level="1"],
+.js-calendar-graph rect[data-level="1"] {
+  fill: #4A210F !important;
+  background-color: #4A210F !important;
+}
+
+svg.js-calendar-graph-svg rect.ContributionCalendar-day[data-level="2"],
+svg.js-calendar-graph-svg rect[data-level="2"],
+.js-calendar-graph rect[data-level="2"] {
+  fill: #8C3B0D !important;
+  background-color: #8C3B0D !important;
+}
+
+svg.js-calendar-graph-svg rect.ContributionCalendar-day[data-level="3"],
+svg.js-calendar-graph-svg rect[data-level="3"],
+.js-calendar-graph rect[data-level="3"] {
+  fill: #D96B16 !important;
+  background-color: #D96B16 !important;
+}
+
+svg.js-calendar-graph-svg rect.ContributionCalendar-day[data-level="4"],
+svg.js-calendar-graph-svg rect[data-level="4"],
+.js-calendar-graph rect[data-level="4"] {
+  fill: #FF9A3C !important;
+  background-color: #FF9A3C !important;
+}
+
+/* ========================================================
+   Contribution Calendar Legend ("Less ... More")
+   ======================================================== */
+.ContributionCalendar-legend ul li[data-level="0"],
+.ContributionCalendar-legend li.ContributionCalendar-day[data-level="0"],
+.ContributionCalendar-legend [data-level="0"] {
+  background-color: var(--gh-halloween-l0) !important;
+  fill: var(--gh-halloween-l0) !important;
+}
+
+.ContributionCalendar-legend ul li[data-level="1"],
+.ContributionCalendar-legend li.ContributionCalendar-day[data-level="1"],
+.ContributionCalendar-legend [data-level="1"] {
+  background-color: #4A210F !important;
+  fill: #4A210F !important;
+}
+
+.ContributionCalendar-legend ul li[data-level="2"],
+.ContributionCalendar-legend li.ContributionCalendar-day[data-level="2"],
+.ContributionCalendar-legend [data-level="2"] {
+  background-color: #8C3B0D !important;
+  fill: #8C3B0D !important;
+}
+
+.ContributionCalendar-legend ul li[data-level="3"],
+.ContributionCalendar-legend li.ContributionCalendar-day[data-level="3"],
+.ContributionCalendar-legend [data-level="3"] {
+  background-color: #D96B16 !important;
+  fill: #D96B16 !important;
+}
+
+.ContributionCalendar-legend ul li[data-level="4"],
+.ContributionCalendar-legend li.ContributionCalendar-day[data-level="4"],
+.ContributionCalendar-legend [data-level="4"] {
+  background-color: #FF9A3C !important;
+  fill: #FF9A3C !important;
+}
+
+/* Outline / hover effects preserved */
+.ContributionCalendar-day:hover {
+  outline: 1px solid rgba(255, 154, 60, 0.8) !important;
+  z-index: 1;
+}

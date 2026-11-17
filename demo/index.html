@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-color-mode="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Contribution Graph – Halloween Orange Theme Demo</title>
+  <link rel="stylesheet" href="../style.css" id="theme-stylesheet">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <div class="demo-header">
+    <div class="demo-title-group">
+      <h1>🎃 GitHub Contribution Graph</h1>
+      <span class="demo-badge">Halloween Orange Theme</span>
+    </div>
+    <div class="demo-controls">
+      <button id="toggle-theme-btn" class="btn btn-primary">🎃 Theme: Halloween (ON)</button>
+      <button id="toggle-mode-btn" class="btn">🌙 Dark Mode</button>
+    </div>
+  </div>
+
+  <main class="profile-container">
+    <div class="calendar-card js-calendar-graph">
+      <div class="calendar-header">
+        <span>1,429 contributions in the last year</span>
+      </div>
+
+      <div class="calendar-wrapper">
+        <table id="contribution-grid" class="ContributionCalendar-grid js-calendar-graph-table">
+          <!-- Populated dynamically via demo.js -->
+        </table>
+      </div>
+
+      <div class="calendar-footer">
+        <span>Learn how we count contributions</span>
+        <div class="ContributionCalendar-legend">
+          <span>Less</span>
+          <ul class="ContributionCalendar-legend-squares">
+            <li class="ContributionCalendar-day" data-level="0"></li>
+            <li class="ContributionCalendar-day" data-level="1"></li>
+            <li class="ContributionCalendar-day" data-level="2"></li>
+            <li class="ContributionCalendar-day" data-level="3"></li>
+            <li class="ContributionCalendar-day" data-level="4"></li>
+          </ul>
+          <span>More</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verification Panel -->
+    <section class="test-panel">
+      <h2>🔍 Automated Color Intensity Verification</h2>
+      <div class="test-grid">
+        <div class="test-card">
+          <div class="test-swatch" style="background-color: #161B22;"></div>
+          <div class="test-info">
+            <span class="test-title">Level 0 (No activity)</span>
+            <span class="test-hex" id="hex-l0">#161B22</span>
+          </div>
+          <div class="test-status" id="status-l0">Checking...</div>
+        </div>
+        <div class="test-card">
+          <div class="test-swatch" style="background-color: #4A210F;"></div>
+          <div class="test-info">
+            <span class="test-title">Level 1 (Low)</span>
+            <span class="test-hex" id="hex-l1">#4A210F</span>
+          </div>
+          <div class="test-status" id="status-l1">Checking...</div>
+        </div>
+        <div class="test-card">
+          <div class="test-swatch" style="background-color: #8C3B0D;"></div>
+          <div class="test-info">
+            <span class="test-title">Level 2 (Medium)</span>
+            <span class="test-hex" id="hex-l2">#8C3B0D</span>
+          </div>
+          <div class="test-status" id="status-l2">Checking...</div>
+        </div>
+        <div class="test-card">
+          <div class="test-swatch" style="background-color: #D96B16;"></div>
+          <div class="test-info">
+            <span class="test-title">Level 3 (High)</span>
+            <span class="test-hex" id="hex-l3">#D96B16</span>
+          </div>
+          <div class="test-status" id="status-l3">Checking...</div>
+        </div>
+        <div class="test-card">
+          <div class="test-swatch" style="background-color: #FF9A3C;"></div>
+          <div class="test-info">
+            <span class="test-title">Level 4 (Max)</span>
+            <span class="test-hex" id="hex-l4">#FF9A3C</span>
+          </div>
+          <div class="test-status" id="status-l4">Checking...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="custom-tooltip"></div>
+  <script src="demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Halloween Theme</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="header">
+      <div class="title-group">
+        <span class="icon">🎃</span>
+        <h1>Halloween Theme</h1>
+      </div>
+      <label class="switch" title="Toggle Halloween theme">
+        <input type="checkbox" id="theme-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <div class="status-badge" id="status-badge">Theme Active</div>
+
+    <section class="palette-section">
+      <h2 class="section-title">Contribution Palette</h2>
+      <div class="level-list">
+        <div class="level-item">
+          <div class="color-swatch" style="background-color: #161B22; border: 1px solid #30363d;"></div>
+          <div class="level-meta">
+            <span class="level-name">Level 0 (None)</span>
+            <span class="level-hex">#161B22</span>
+          </div>
+        </div>
+        <div class="level-item">
+          <div class="color-swatch" style="background-color: #4A210F;"></div>
+          <div class="level-meta">
+            <span class="level-name">Level 1 (Low)</span>
+            <span class="level-hex">#4A210F</span>
+          </div>
+        </div>
+        <div class="level-item">
+          <div class="color-swatch" style="background-color: #8C3B0D;"></div>
+          <div class="level-meta">
+            <span class="level-name">Level 2 (Medium)</span>
+            <span class="level-hex">#8C3B0D</span>
+          </div>
+        </div>
+        <div class="level-item">
+          <div class="color-swatch" style="background-color: #D96B16;"></div>
+          <div class="level-meta">
+            <span class="level-name">Level 3 (High)</span>
+            <span class="level-hex">#D96B16</span>
+          </div>
+        </div>
+        <div class="level-item">
+          <div class="color-swatch" style="background-color: #FF9A3C;"></div>
+          <div class="level-meta">
+            <span class="level-name">Level 4 (Max)</span>
+            <span class="level-hex">#FF9A3C</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="preview-strip">
+      <span class="preview-label">Less</span>
+      <div class="mini-grid">
+        <div class="mini-square" style="background-color: #161B22;"></div>
+        <div class="mini-square" style="background-color: #4A210F;"></div>
+        <div class="mini-square" style="background-color: #8C3B0D;"></div>
+        <div class="mini-square" style="background-color: #D96B16;"></div>
+        <div class="mini-square" style="background-color: #FF9A3C;"></div>
+      </div>
+      <span class="preview-label">More</span>
+    </div>
+
+    <footer class="footer">
+      <a href="https://github.com" target="_blank" class="gh-link">Open GitHub Profile</a>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
