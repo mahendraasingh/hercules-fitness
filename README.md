@@ -35,7 +35,7 @@ Paste this into your profile `README.md` (e.g. in your `mahendraasingh/mahendraa
 
 ```markdown
 <div align="center">
-  <img src="https://raw.githubusercontent.com/mahendraasingh/hercules-fitness/main/halloween-graph.svg" alt="Mahendra's Halloween Contribution Graph" width="100%" />
+  <img src="https://raw.githubusercontent.com/mahendraasingh/theme/main/halloween-graph.svg" alt="Mahendra's Halloween Contribution Graph" width="100%" />
 </div>
 ```
 
