@@ -113,3 +113,4 @@ for (const s of [16, 48, 128]) {
   fs.writeFileSync(`icons/icon${s}.png`, generateIcon(s));
   console.log(`Generated icon${s}.png (${s}x${s})`);
 }
+

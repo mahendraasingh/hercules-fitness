@@ -1,16 +1,26 @@
 /**
  * GitHub Contribution Graph - Halloween Orange Theme
  * Content Script for Chrome / Firefox Extension
+ *
+ * Direct DOM injection + MutationObserver + Turbo Lifecycle
  */
 
 (() => {
   'use strict';
 
   const STORAGE_KEY = 'gh_halloween_theme_enabled';
-  const CLASS_NAME = 'gh-halloween-theme-active';
+  const STYLE_ID = 'gh-halloween-injected-style';
 
-  const PALETTE = {
+  const DARK_PALETTE = {
     '0': '#161B22',
+    '1': '#4A210F',
+    '2': '#8C3B0D',
+    '3': '#D96B16',
+    '4': '#FF9A3C'
+  };
+
+  const LIGHT_PALETTE = {
+    '0': '#EBEDF0',
     '1': '#4A210F',
     '2': '#8C3B0D',
     '3': '#D96B16',
@@ -19,37 +29,109 @@
 
   let isEnabled = true;
 
-  /**
-   * Apply theme class to document and update any SVG elements with hardcoded fill attributes.
-   */
-  function applyTheme() {
-    if (!isEnabled) {
-      document.documentElement.classList.remove(CLASS_NAME);
-      return;
-    }
+  function isLightMode() {
+    const mode = document.documentElement.getAttribute('data-color-mode');
+    if (mode === 'light') return true;
+    if (mode === 'dark') return false;
+    // Auto mode fallback to media query
+    return window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
 
-    document.documentElement.classList.add(CLASS_NAME);
-
-    // Update any SVG rects that might have inline fill overrides
-    const graphSvg = document.querySelector('.js-calendar-graph-svg, .js-calendar-graph svg');
-    if (graphSvg) {
-      const rects = graphSvg.querySelectorAll('rect.ContributionCalendar-day, rect[data-level]');
-      rects.forEach(rect => {
-        const level = rect.getAttribute('data-level');
-        if (level && PALETTE[level]) {
-          rect.setAttribute('fill', PALETTE[level]);
-        }
-      });
-    }
+  function getPalette() {
+    return isLightMode() ? LIGHT_PALETTE : DARK_PALETTE;
   }
 
   /**
-   * Initialize storage listener and retrieve saved user preference.
+   * Inject high-priority stylesheet into document.documentElement or document.head
+   */
+  function injectStyleSheet() {
+    if (document.getElementById(STYLE_ID)) return;
+    const style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = `
+      html body td.ContributionCalendar-day[data-level="0"],
+      html body table.ContributionCalendar-grid td[data-level="0"],
+      html body .ContributionCalendar [data-level="0"] {
+        background-color: var(--gh-halloween-l0, #161B22) !important;
+        fill: var(--gh-halloween-l0, #161B22) !important;
+      }
+      html body td.ContributionCalendar-day[data-level="1"],
+      html body table.ContributionCalendar-grid td[data-level="1"],
+      html body .ContributionCalendar [data-level="1"] {
+        background-color: #4A210F !important;
+        fill: #4A210F !important;
+      }
+      html body td.ContributionCalendar-day[data-level="2"],
+      html body table.ContributionCalendar-grid td[data-level="2"],
+      html body .ContributionCalendar [data-level="2"] {
+        background-color: #8C3B0D !important;
+        fill: #8C3B0D !important;
+      }
+      html body td.ContributionCalendar-day[data-level="3"],
+      html body table.ContributionCalendar-grid td[data-level="3"],
+      html body .ContributionCalendar [data-level="3"] {
+        background-color: #D96B16 !important;
+        fill: #D96B16 !important;
+      }
+      html body td.ContributionCalendar-day[data-level="4"],
+      html body table.ContributionCalendar-grid td[data-level="4"],
+      html body .ContributionCalendar [data-level="4"] {
+        background-color: #FF9A3C !important;
+        fill: #FF9A3C !important;
+      }
+    `;
+    (document.head || document.documentElement).appendChild(style);
+  }
+
+  /**
+   * Directly color all contribution cells and legend elements
+   */
+  function applyTheme() {
+    if (!isEnabled) {
+      removeTheme();
+      return;
+    }
+
+    injectStyleSheet();
+
+    const palette = getPalette();
+    const cells = document.querySelectorAll('[data-level]');
+
+    cells.forEach(el => {
+      const level = el.getAttribute('data-level');
+      if (level && palette[level]) {
+        const color = palette[level];
+        el.style.setProperty('background-color', color, 'important');
+        el.style.setProperty('fill', color, 'important');
+      }
+    });
+  }
+
+  /**
+   * Remove inline styling when toggled off
+   */
+  function removeTheme() {
+    const injected = document.getElementById(STYLE_ID);
+    if (injected) injected.remove();
+
+    const cells = document.querySelectorAll('[data-level]');
+    cells.forEach(el => {
+      el.style.removeProperty('background-color');
+      el.style.removeProperty('fill');
+    });
+  }
+
+  /**
+   * Initialize theme immediately and observe changes
    */
   function init() {
+    // 1. Synchronous initial application to prevent green flash
+    applyTheme();
+
+    // 2. Read saved preference asynchronously
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
       chrome.storage.sync.get([STORAGE_KEY], (result) => {
-        isEnabled = result[STORAGE_KEY] !== false; // Default true
+        isEnabled = result[STORAGE_KEY] !== false;
         applyTheme();
       });
 
@@ -59,52 +141,31 @@
           applyTheme();
         }
       });
-    } else {
-      applyTheme();
     }
 
-    // Observe dynamic changes (Turbo / PJAX / Year switching)
-    const observer = new MutationObserver((mutations) => {
-      let shouldReapply = false;
-      for (const mutation of mutations) {
-        if (mutation.addedNodes.length > 0) {
-          for (const node of mutation.addedNodes) {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              if (
-                node.matches?.('.js-calendar-graph, .js-yearly-contributions, table.ContributionCalendar-grid, .ContributionCalendar-day') ||
-                node.querySelector?.('.js-calendar-graph, table.ContributionCalendar-grid, .ContributionCalendar-day')
-              ) {
-                shouldReapply = true;
-                break;
-              }
-            }
-          }
-        }
-        if (shouldReapply) break;
-      }
-
-      if (shouldReapply) {
+    // 3. MutationObserver to handle dynamically injected calendar fragments
+    let timeoutId = null;
+    const observer = new MutationObserver(() => {
+      if (timeoutId) cancelAnimationFrame(timeoutId);
+      timeoutId = requestAnimationFrame(() => {
         applyTheme();
-      }
+      });
     });
 
     observer.observe(document.body || document.documentElement, {
       childList: true,
-      subtree: true
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-level', 'data-color-mode']
     });
 
-    // GitHub Turbo & PJAX event lifecycle hooks
-    ['turbo:load', 'turbo:render', 'pjax:end', 'pjax:complete'].forEach(event => {
+    // 4. Hook into GitHub Turbo & PJAX navigation lifecycle
+    ['turbo:load', 'turbo:render', 'turbo:before-render', 'pjax:end', 'pjax:complete', 'DOMContentLoaded', 'load'].forEach(event => {
+      window.addEventListener(event, applyTheme);
       document.addEventListener(event, applyTheme);
     });
-
-    // Initial application
-    applyTheme();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  // Run as early as possible
+  init();
 })();

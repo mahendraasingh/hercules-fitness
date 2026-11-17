@@ -140,3 +140,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial verification run
   setTimeout(runVerification, 100);
 });
+
